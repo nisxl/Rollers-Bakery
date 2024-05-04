@@ -1,0 +1,39 @@
+[
+    {"id": 1,
+    "name": "Black",
+    "price" : 400,
+    "image": "cake1.jpg",
+    "rating": 4.0
+},
+{"id": 2,
+    "name": "Black Forest & cinnamon cake yes ace hehe",
+    "price" : 600,
+    "image": "cake1.jpg",
+    "rating": 4.26
+},
+{"id": 3,
+    "name": "Black Forest & cinnamon cake",
+    "price" : 900,
+    "image": "cake1.jpg",
+    "rating": 2.1
+},
+{"id": 4,
+    "name": "Wishing Jar Bottle with Luminous Dream Catcher",
+    "price" : 1000,
+    "image": "cake1.jpg",
+    "rating": 2.8
+},
+{"id": 5,
+    "name": "Black Forest & cinnamon cake",
+    "price" : 1000,
+    "image": "spray.jpg",
+    "rating": 4.7
+},
+{"id": 6,
+    "name": "Black Forest and eh",
+    "price" : 1000,
+    "image": "spray.jpg",
+    "rating": 4.7
+}
+
+]

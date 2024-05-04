@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: Poppins;
+}
+
+
+button {
+  display: inline-flex;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+
+.offcanvas-width {
+  width: 900px; /* or any desired width */
+}
+.carousel-item-next,
+.carousel-item-prev,
+.carousel-item.active{
+  display: flex;
+}
+.carousel-caption{
+  position: absolute;
+  top:0;
+}
+
+.carousel-caption h4{
+  color:#fff
+}
+
+.carousel img{
+  display: block;
+  height: 300px;
+  padding:30px;
+  margin: 40px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.carousel a {
+  margin:0 auto;
+}
+
+.btn-custom {
+  background-color: #38343c;
+  border-color: #38343c;
+}
+.btn-custom:hover {
+  background-color: #2c282f;
+  border-color: #2c282f;
+}
