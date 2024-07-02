@@ -1,10 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
 import { addToCart, removeFromCart } from "../actions/cartActions";
 import Message from "../components/UI/Message";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import {
   Row,
   Col,
@@ -14,27 +12,24 @@ import {
   Button,
   Card,
 } from "react-bootstrap";
-import CartItem from "../components/Cart/cartItem";
+import { DatePicker, Select } from "antd";
+import dayjs from "dayjs";
+import moment from "moment";
+
 function CartPage() {
   const { id } = useParams();
   const productId = parseInt(id);
   const navigate = useNavigate();
   const location = useLocation();
+  const [selectedDate, setSelectedDate] = useState("");
 
   const qty = Number(new URLSearchParams(location.search).get("qty")) || 1;
-  // const qty = location.search ? Number(location.search.split("=")[1]) : 1;
-  // const weight = location.search
-  //   ? Number(location.search.split("&")[1].split("=")[1])
-  //   : product.min_weight;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
-
-  const weighter = useSelector((state) => state.weighter);
-  const { weight } = weighter;
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -49,14 +44,72 @@ function CartPage() {
 
   const checkoutHandler = () => {
     navigate("/shipping");
-    // 419;
-    // navigate("/login?redirect=shipping");
   };
 
-  console.log(qty);
-  console.log(weight);
+  const hasNonOneDayCake = () => {
+    return cartItems.some((item) => !item.one_day_cake);
+  };
 
-  console.log(cartItems);
+  useEffect(() => {
+    setSelectedDate(defaultDate);
+  }, []);
+
+  const currentDate = new Date();
+  const currentHour = currentDate.getHours();
+
+  const onDateChange = (date, dateString) => {
+    setSelectedDate(dateString);
+    console.log(date, dateString);
+  };
+
+  function disabledDate(current) {
+    if (!hasNonOneDayCake() && currentHour >= 18) {
+      return current && current < currentDate.add(2, "day").startOf("day");
+    } else if (!hasNonOneDayCake() || currentHour >= 12) {
+      return current && current < moment().add(1, "day").startOf("day");
+    } else {
+      return current && current < moment().startOf("day");
+    }
+  }
+
+  let timeOptions = [
+    {
+      value: "10",
+      label: "9am - 11am",
+    },
+    {
+      value: "12",
+      label: "11am - 1pm",
+    },
+    {
+      value: "14",
+      label: "1pm - 3pm",
+    },
+    {
+      value: "16",
+      label: "3pm - 5pm",
+    },
+    {
+      value: "18",
+      label: "5pm - 7pm",
+    },
+  ];
+  if (selectedDate === moment(currentDate).format("YYYY-MM-DD")) {
+    const currentHour = currentDate.getHours();
+
+    // Filter the timeOptions based on the current hour
+    timeOptions = timeOptions.filter(
+      (option) => parseInt(option.value) > currentHour + 5
+    );
+  }
+
+  const defaultDate =
+    !hasNonOneDayCake() && currentHour >= 18
+      ? moment(currentDate).add(2, "day").format("YYYY-MM-DD")
+      : !hasNonOneDayCake() || currentHour >= 14
+      ? moment(currentDate).add(1, "day").format("YYYY-MM-DD")
+      : moment(currentDate).format("YYYY-MM-DD");
+
   return (
     <Row className="bg-white p-4 rounded-md shadow-md mx-3">
       <Col md={8}>
@@ -138,6 +191,41 @@ function CartPage() {
       <Col md={4}>
         <Card className="mt-4">
           <ListGroup variant="flush">
+            <ListGroup.Item>
+              <h2>Delivery Date</h2>
+              <div className="flex">
+                {/* <Form.Label>Select Delivery Date</Form.Label>
+                <Form.Control
+                  type="date"
+                  value={deliveryDate}
+                  min={deliveryDate}
+                  onChange={(e) => setDeliveryDate(e.target.value)}
+                /> */}
+
+                <DatePicker
+                  defaultValue={dayjs(defaultDate, "YYYY-MM-DD")}
+                  disabledDate={disabledDate}
+                  onChange={onDateChange}
+                  style={{ width: "100%", height: "40px", fontSize: "16px" }}
+                />
+
+                <Select
+                  defaultValue="Select Time"
+                  style={{
+                    width: 120,
+                    height: "40px",
+                  }}
+                  options={timeOptions}
+                />
+              </div>
+
+              {hasNonOneDayCake() && (
+                <p>
+                  Please note that the preparation time may be longer due to the
+                  selected products.
+                </p>
+              )}
+            </ListGroup.Item>
             <ListGroup.Item className="flex justify-between">
               <h2 className="text-lg font-semibold">
                 Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)})
@@ -146,10 +234,7 @@ function CartPage() {
               <p className="text-lg font-semibold">
                 Rs.
                 {cartItems
-                  .reduce(
-                    (acc, item) => (acc + item.qty * item.price * weight) / 2,
-                    0
-                  )
+                  .reduce((acc, item) => acc + item.qty * item.price, 0)
                   .toFixed(2)}
               </p>
             </ListGroup.Item>

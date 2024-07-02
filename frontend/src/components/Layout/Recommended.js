@@ -132,6 +132,9 @@ function Recommended() {
                       className="no-underline dark:text-white"
                       state={{ id: product._id }}
                     >
+                      <button className="bg-[#FBEDCD] font-semibold text-black">
+                        + Add to Cart
+                      </button>
                       <Button
                         type="primary"
                         className="bg-[#FBEDCD] font-semibold text-black"

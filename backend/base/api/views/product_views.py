@@ -2,6 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from base.api.utils.email_utils import send_order_confirmation_email
 from base.items import products
 from base.models import Product, Review
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -133,6 +134,8 @@ def createProduct(request):
         min_weight=data.get('min_weight'),
         max_weight=data.get('max_weight')
     )
+
+    send_order_confirmation_email('dragon1234slayer@gmail.com')
 
     serializer = ProductSerializer(product)
     return Response(serializer.data, status=status.HTTP_201_CREATED)

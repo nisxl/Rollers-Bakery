@@ -105,31 +105,16 @@ function ProductPage() {
     }
   }
 
-  const timeOptions = [
-    {
-      value: "10",
-      label: "9am - 11am",
-    },
-    {
-      value: "12",
-      label: "11am - 1pm",
-    },
-    {
-      value: "14",
-      label: "1pm - 3pm",
-    },
-    {
-      value: "16",
-      label: "3pm - 5pm",
-    },
-    {
-      value: "18",
-      label: "5pm - 7pm",
-    },
+  let timeOptions = [
+    { value: "10", label: "9am - 11am" },
+    { value: "12", label: "11am - 1pm" },
+    { value: "14", label: "1pm - 3pm" },
+    { value: "16", label: "3pm - 5pm" },
+    { value: "18", label: "5pm - 7pm" },
   ];
+
   if (selectedDate === moment(currentDate).format("YYYY-MM-DD")) {
     const currentHour = currentDate.getHours();
-
     // Filter the timeOptions based on the current hour
     timeOptions = timeOptions.filter(
       (option) => parseInt(option.value) > currentHour + 5

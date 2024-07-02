@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django.conf import settings
+from base.api.utils.email_utils import send_order_confirmation_email
 from base.models import Product, Order, OrderItem, ShippingAddress
 from base.api.serializers import OrderSerializer
 from datetime import datetime
@@ -55,6 +56,16 @@ def addOrderItems(request):
 
             product.countInStock -= item.qty
             product.save()
+
+        order_details = {
+            'customer_name': user.email, 
+            'order_id': order._id,
+            # 'product_name': ', '.join([item.name for item in orderItems]),
+            # 'quantity': sum([item['qty'] for item in orderItems]),
+            # 'price': order.totalPrice,
+        }
+
+        send_order_confirmation_email(user.email, order_details)
         serializer = OrderSerializer(order, many=False)
         return Response(serializer.data)
 
@@ -74,6 +85,12 @@ def getOrders(request):
     serializer = OrderSerializer(orders, many=True)
     return Response(serializer.data)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def sendMail(request):
+    # Send confirmation email
+    send_order_confirmation_email('nis.maharaj@gmail.com', "these")
+    return Response('Order added and confirmation email sent.')
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

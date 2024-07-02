@@ -31,7 +31,16 @@ function Testimonial() {
       <div className="text-[#4A1D1F] text-[16px] dark:text-[#FBEDCD]">
         What Our Customers Say
       </div>
-      <Swiper
+      <section className="flex">
+        <div>
+          <img />
+          <p>
+            <span></span>
+            <span></span>
+          </p>
+        </div>
+      </section>
+      {/* <Swiper
         scrollbar={{
           hide: true,
         }}
@@ -73,7 +82,7 @@ function Testimonial() {
           }
           return null;
         })}
-      </Swiper>
+      </Swiper> */}
     </div>
   );
 }

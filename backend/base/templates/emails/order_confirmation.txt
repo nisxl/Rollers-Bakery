@@ -1,0 +1,6 @@
+Hello {{ customer_name }},
+
+Thank you for your order!
+
+Best regards,
+Your Company

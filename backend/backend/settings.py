@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from datetime import timedelta
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 # import os
@@ -115,7 +115,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -153,6 +153,14 @@ DATABASES = {
     }
 }
 
+# Email settings for Brevo (Sendinblue)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp-relay.brevo.com'  # Brevo's SMTP server
+EMAIL_PORT = 587
+EMAIL_HOST_USER = '779d44001@smtp-brevo.com'  # Your Brevo SMTP username
+EMAIL_HOST_PASSWORD = '1346JdbEkcLB9FSv'  # Your Brevo SMTP password
+DEFAULT_FROM_EMAIL = 'nischalmhz02@gmail.com'  # Your default from email
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

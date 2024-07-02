@@ -12,6 +12,8 @@ urlpatterns = [
     path('<str:pk>/',  views.getOrderById, name='user-order'),
     path('<str:pk>/pay/',  views.updateOrderToPaid, name='pay'),
 
+    path('mail/', views.sendMail, name='mail')
+
     # path('add/', views.addOrderItems, name='orders-add'),
 
 ]
