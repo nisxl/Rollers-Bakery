@@ -24,6 +24,13 @@ import {
   PRODUCT_RECOMMENDED_REQUEST,
   PRODUCT_RECOMMENDED_SUCCESS,
   PRODUCT_RECOMMENDED_FAIL,
+  CATEGORY_LIST_REQUEST,
+  CATEGORY_LIST_SUCCESS,
+  CATEGORY_LIST_FAIL,
+  CATEGORY_CREATE_SUCCESS,
+  CATEGORY_CREATE_REQUEST,
+  CATEGORY_CREATE_FAIL,
+  CATEGORY_CREATE_RESET,
   SET_WEIGHT,
 } from "../constants/productConstants";
 
@@ -316,4 +323,65 @@ export const setWeight = (weight) => {
     type: SET_WEIGHT,
     payload: weight,
   };
+};
+
+export const listCategories =
+  (keyword = "") =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: CATEGORY_LIST_REQUEST });
+      const { data } = await axios.get(
+        `http://127.0.0.1:8000/api/products/categories/`
+      );
+      dispatch({
+        type: CATEGORY_LIST_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: CATEGORY_LIST_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+export const createCategory = (productData) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: CATEGORY_CREATE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      `http://127.0.0.1:8000/api/products/category/`,
+      productData,
+      config
+    );
+
+    dispatch({
+      type: CATEGORY_CREATE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: CATEGORY_CREATE_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
 };

@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { Button } from "antd";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css/sea-green";
+import { FaStar } from "react-icons/fa";
+import { FaRegStar } from "react-icons/fa";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -41,68 +43,75 @@ function BestSelling() {
   }, [dispatch]);
 
   return (
-    <div className="flex flex-wrap px-[160px] gap-10 justify-around">
+    <div className="flex flex-wrap px-[160px] gap-10 justify-around ">
       <Swiper
         slidesPerView={4}
-        spaceBetween={35}
+        spaceBetween={0}
         navigation={true}
         modules={[Navigation]}
         className="mySwiper"
       >
         {productsTopRated.map((product) => (
-          <SwiperSlide key={product._id}>
-            <section className="flex flex-col h-[410px] items-center">
-              <div className="w-[180px] flex flex-col text-[15px] font-semibold">
+          <SwiperSlide
+            key={product._id}
+            className="dark:bg-[#222222] dark:text-white bg-slate-100"
+          >
+            <section className="flex flex-col h-[410px] items-center dark:bg-[#222222] ">
+              <div
+                className="w-[90px] dark:text-white md:w-[220px] max-w-[220px] flex flex-col text-[15px] font-semibold
+              rounded-lg transition-transform ease-in duration-300 transform hover:scale-105 hover:shadow-lg
+              "
+              >
                 <Link
                   to={`/product/${product._id}`}
                   state={{ id: product._id }}
                 >
                   <img
                     src={`${SEED}${product.image}`}
+                    className="w-full rounded-t-lg"
                     style={{
-                      width: "180px",
                       height: "210px",
-                      borderRadius: "8px",
                       cursor: "pointer",
                     }}
                   />
                 </Link>
+                <div className="flex items-center justify-between mx-2">
+                  {product.is_cake ? (
+                    <div className="text-md text-[#4A1D1F] dark:text-[#FBEDCD]">
+                      Rs.{product.price}/{product.min_weight}lb
+                    </div>
+                  ) : (
+                    <div className="text-md text-[#4A1D1F] dark:text-[#FBEDCD]">
+                      Rs.{product.price}
+                    </div>
+                  )}
+                  <div className="flex mb-2 mt-[15px] gap-1 p-1 text-sm rounded-lg dark:border-[#FBEDCD]">
+                    {/* <Rating value={product.rating} colors="#f8e825" /> */}
+
+                    {product.rating > 0 ? (
+                      <FaStar className="" style={{ color: "#fadb14" }} />
+                    ) : (
+                      <FaRegStar className="" style={{ color: "#fadb14" }} />
+                    )}
+                    <div>{product.rating}</div>
+                  </div>
+                </div>
+
                 <Link
                   to={`/product/${product._id}`}
-                  className="no-underline dark:text-white"
+                  className="no-underline"
                   state={{ id: product._id }}
                 >
-                  <div className="no-underline dark:text-white mx-2 mt-2 h-[45px] cursor-pointer">
-                    {product.name}{" "}
-                    {product.is_cake && <div>( {product.min_weight}lb/s )</div>}
-                  </div>
+                  <p className="no-underline dark:text-white mx-2 text-[#4A1D1F] h-[45px] cursor-pointer flex justify-start">
+                    {product.name}
+                  </p>
                 </Link>
-                <div className="flex items-center gap-2 mb-3">
-                  <Rating value={product.rating} colors="#f8e825" />
-                  <span>{product.rating}</span>
+
+                <div className="flex justify-start mx-2 gap-5 dark:text-[#FBEDCD] text-[#4A1D1F] text-lg pb-5">
+                  <ion-icon name="heart-outline"></ion-icon>
+                  <ion-icon name="cart-outline"></ion-icon>
                 </div>
               </div>
-              {product.countInStock > 0 ? (
-                <div className="font-mono">
-                  <Link
-                    to={`/product/${product._id}`}
-                    className="no-underline dark:text-white"
-                    state={{ id: product._id }}
-                  >
-                    <Button
-                      type="primary"
-                      className="bg-[#FBEDCD] font-semibold text-black"
-                      // onClick={addToCartHandler}
-                    >
-                      + Add to Cart
-                    </Button>
-                  </Link>
-                </div>
-              ) : (
-                <p className="text-center text-red-500 font-bold">
-                  Out of Stock
-                </p>
-              )}
             </section>
           </SwiperSlide>
         ))}

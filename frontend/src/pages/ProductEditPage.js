@@ -20,7 +20,7 @@ function ProductEditPage() {
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState("");
   const [uploading, setUploading] = useState(false);
-
+  const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ function ProductEditPage() {
     loading: loadingUpdate,
     success: successUpdate,
   } = productUpdate;
-
+  console.log("productt", product);
   useEffect(() => {
     if (successUpdate) {
       dispatch({ type: PRODUCT_UPDATE_RESET });
@@ -48,15 +48,26 @@ function ProductEditPage() {
         setName(product.name);
         setPrice(product.price);
         setImage(product.image);
-        setCategory(product.category);
+        setCategory(product.category ? product.category : "");
         setCountInStock(product.countInStock);
         setDescription(product.description);
       }
     }
-    //if successfully update the user or not
-  }, [dispatch, product, productId, navigate, successUpdate]);
+    console.log("categoyr cha?", category);
 
-  console.log("name", name);
+    const fetchCategories = async () => {
+      try {
+        const { data } = await axios.get(
+          `http://127.0.0.1:8000/api/products/categories/`
+        );
+        setCategories(data); // Set the fetched categories
+      } catch (error) {
+        console.error("Error fetching categories", error);
+      }
+    };
+
+    fetchCategories();
+  }, [dispatch, product, productId, navigate, successUpdate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -73,6 +84,8 @@ function ProductEditPage() {
       })
     );
   };
+
+  console.log("categoery ", category);
 
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0];
@@ -174,14 +187,19 @@ function ProductEditPage() {
               onChange={(e) => setCountInStock(e.target.value)}
               value={countInStock}
             />
-            <input
+            <select
               className="w-[440px] shadow-in h-[45px] placeholder-[#4A1D1F] px-[30px]"
-              type="text"
-              placeholder="Category"
               name="category"
-              onChange={(e) => setCategory(e.target.value)}
               value={category}
-            />
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="">Select Category</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
             <input
               className="w-[440px] shadow-in h-[45px] placeholder-[#4A1D1F] px-[30px]"
               type="text"

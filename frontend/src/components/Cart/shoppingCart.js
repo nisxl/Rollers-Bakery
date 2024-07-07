@@ -62,7 +62,7 @@ function ShoppingCart({ isOpen }) {
                   Continue Shopping
                 </div>
 
-                <Link to={`/cart`}>
+                <Link to={`/cart`} className="no-underline">
                   {/* <Link to="/product" state={{ id: props.key }}> */}{" "}
                   <div
                     onClick={closeCart}

@@ -6,13 +6,16 @@ import { Link } from "react-router-dom";
 
 function Footer() {
   return (
-    <div className="bg-[#FBEDCD] dark:bg-[#4A1D1F] flex flex-col sm:flex-row py-10 dark:text-white">
+    <div className="bg-[#FBEDCD] dark:bg-[#2e2e2e] flex flex-col sm:flex-row py-10 dark:text-white">
       <div className="flex flex-col mt-[80px] px-[70px] items-center  ">
         <p className="font-semibold">Stay Connected</p>
-        <div className="flex gap-[14px] mb-[57px] text-white">
-          <img src="../../images/instagram.png" className="w-[19px]" />
+        <div className="flex gap-[14px] mb-[57px] text-[#4A1D1F] dark:text-[#FBEDCD]">
+          <ion-icon name="logo-facebook"></ion-icon>
+          <ion-icon name="logo-instagram"></ion-icon>
+          <ion-icon name="logo-tiktok"></ion-icon>
+          {/* <img src="../../images/instagram.png" className="w-[19px]" />
           <img src="../../images/facebook.png" className="w-[19px]" />
-          <img src="../../images/tik-tok.png" className="w-[19px]" />
+          <img src="../../images/tik-tok.png" className="w-[19px]" /> */}
         </div>
         <div className=" items-center text-[14px] hidden md:flex">
           <BiCopyright /> 2024 Rollers Bakery House, All rights reserved.
@@ -20,15 +23,15 @@ function Footer() {
       </div>
 
       <div className="flex flex-col md:flex-row items-center  grow  justify-evenly">
-        <div className="flex flex-col gap-3">
-          <Link to={`cakes`}>
-            <span>Cakes</span>
+        <div className="flex flex-col gap-3 ">
+          <Link to={`cakes`} className="no-underline">
+            <span className=" dark:text-[#FBEDCD] ">Cakes</span>
           </Link>
-          <Link to={`contact`}>
-            <span>About Us</span>
+          <Link to={`contact`} className="no-underline">
+            <span className="dark:text-[#FBEDCD]">About Us</span>
           </Link>
-          <Link to={`faq`}>
-            <span>FAQ</span>
+          <Link to={`faq`} className="no-underline">
+            <span className="dark:text-[#FBEDCD]">FAQ</span>
           </Link>
         </div>
         <div className="flex flex-col gap-6">

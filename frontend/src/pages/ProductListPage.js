@@ -9,6 +9,7 @@ import {
   listProducts,
   deleteProduct,
   createProduct,
+  listCategories,
 } from "../actions/productActions";
 import Paginate from "../components/UI/Paginate";
 import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
@@ -79,6 +80,15 @@ function ProductListPage() {
 
     navigate(`/admin/product/create`);
   };
+
+  const categoryList = useSelector((state) => state.categoryList);
+  const { categories } = categoryList;
+  useEffect(() => {
+    dispatch(listCategories());
+  }, [dispatch]);
+
+  console.log("categories", categories);
+
   return (
     <div className="mx-[50px]">
       <Row className="align-items-center">
@@ -122,7 +132,11 @@ function ProductListPage() {
                   <td>{product._id}</td>
                   <td>{product.name}</td>
                   <td>Rs. {product.price}</td>
-                  <td>{product.category}</td>
+                  <td>
+                    {categories.find(
+                      (category) => category.id === product.category
+                    )?.name || ""}
+                  </td>
                   <td>{product.brand}</td>
 
                   <td>

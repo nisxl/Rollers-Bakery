@@ -6,7 +6,6 @@
   font-family: Poppins;
 }
 
-
 button {
   display: inline-flex;
 }
@@ -15,35 +14,34 @@ button {
   margin-bottom: 1rem;
 }
 
-
 .offcanvas-width {
   width: 900px; /* or any desired width */
 }
 .carousel-item-next,
 .carousel-item-prev,
-.carousel-item.active{
+.carousel-item.active {
   display: flex;
 }
-.carousel-caption{
+.carousel-caption {
   position: absolute;
-  top:0;
+  top: 0;
 }
 
-.carousel-caption h4{
-  color:#fff
+.carousel-caption h4 {
+  color: #fff;
 }
 
-.carousel img{
+.carousel img {
   display: block;
   height: 300px;
-  padding:30px;
+  padding: 30px;
   margin: 40px;
   margin-left: auto;
   margin-right: auto;
 }
 
 .carousel a {
-  margin:0 auto;
+  margin: 0 auto;
 }
 
 .btn-custom {

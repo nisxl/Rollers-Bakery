@@ -19,7 +19,7 @@ def recommendation(user_id):
     # Step 2: Create pandas DataFrames
     ratings = pd.DataFrame(ratings, columns=['name', 'rating', 'comment', 'createdAt','_id',  'product_id', 'user_id'])
     products = pd.DataFrame(products, columns=['name','image','baked_goods_type','flavor','brand','category','description','rating','numReviews','price',
-                                           'countInStock','createdAt','_id','is_cake','min_weight','max_weight','user_id',])  # Replace column names with your actual column names
+                                           'countInStock','createdAt','_id','is_cake','min_weight','max_weight','user_id', 'one_day_cake'])  # Replace column names with your actual column names
 
 
     # print('The ratings dataset has', ratings['user_id'].nunique(), 'unique users')
@@ -28,20 +28,14 @@ def recommendation(user_id):
      # Step 3: Merge the tables on the common key
     dataframe = pd.merge(ratings, products,  left_on='product_id', right_on='_id', how='inner')
 
-    print("Dataframe columns:", dataframe.columns)
-
-    print("dataframe:: ", dataframe.head())
 
     # Create user-item matrix
     # matrix = dataframe.pivot_table(index='userId', columns='name_x', values='rating')
     matrix = dataframe.pivot_table(index='user_id_x', columns='product_id', values='rating_x')
-    print("matrix", matrix.columns)
 
-    print("matrix unnormalized:: ", matrix.head())
 
     matrix_norm = matrix.subtract(matrix.mean(axis=1), axis='rows')
 
-    print("matrix normalized:: ", matrix_norm.head() )
 
     # Similarity using Pearson correlation
 
@@ -51,8 +45,9 @@ def recommendation(user_id):
     # Choose a user ID
     picked_userid = user_id
     # Remove picked user ID from the candidate list
+
+    
     user_similarity.drop(index=picked_userid, inplace=True)
-    print("similar users:", user_similarity.head())
 
     # Number of similar users
     n = 3

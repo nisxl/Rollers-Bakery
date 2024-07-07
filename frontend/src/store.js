@@ -11,6 +11,8 @@ import {
   productReviewCreateReducer,
   productTopRatedReducer,
   productRecommendedReducer,
+  categoryCreateReducer,
+  categoryListReducer,
   weightReducer,
 } from "./reducers/productReducer";
 
@@ -43,6 +45,10 @@ const reducer = combineReducers({
   productReviewCreate: productReviewCreateReducer,
   productTopRated: productTopRatedReducer,
   productRecommended: productRecommendedReducer,
+
+  categoryList: categoryListReducer,
+  categoryCreate: categoryCreateReducer,
+
   weighter: weightReducer,
   passwordReset: passwordResetReducer,
 

@@ -25,7 +25,7 @@ function ProductCreatePage() {
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState("");
   const [uploading, setUploading] = useState(false);
-
+  const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -86,6 +86,21 @@ function ProductCreatePage() {
       setUploading(false);
     }
   };
+
+  useEffect(() => {
+    if (successUpdate) {
+      dispatch({ type: PRODUCT_UPDATE_RESET });
+      navigate("/admin/productlist");
+    } else {
+      const fetchCategories = async () => {
+        const { data } = await axios.get(
+          `http://127.0.0.1:8000/api/products/categories/`
+        );
+        setCategories(data);
+      };
+      fetchCategories();
+    }
+  }, [dispatch, navigate, successUpdate]);
   return (
     <div className="pt-[80px]  text-[#4A1D1F] bg-[#F4F4F2] 2xl:px-[8vw]">
       <Link to="/admin/productlist">Go Back</Link>
@@ -197,14 +212,18 @@ function ProductCreatePage() {
               onChange={(e) => setCountInStock(e.target.value)}
               value={countInStock}
             />
-            <input
+            <select
               className="w-[440px] shadow-in h-[45px] placeholder-[#4A1D1F] px-[30px]"
-              type="text"
-              placeholder="Category"
-              name="category"
               onChange={(e) => setCategory(e.target.value)}
               value={category}
-            />
+            >
+              <option value="">Select Category</option>
+              {categories.map((cat) => (
+                <option key={cat._id} value={cat._id}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
             <input
               className="w-[440px] shadow-in h-[45px] placeholder-[#4A1D1F] px-[30px]"
               type="text"

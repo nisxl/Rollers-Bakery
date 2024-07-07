@@ -76,7 +76,9 @@ const Header = () => {
   const menu = (
     <Menu>
       <Menu.Item key="profile">
-        <Link to="/profile">Profile</Link>
+        <Link to="/profile" className="no-underline">
+          Profile
+        </Link>
       </Menu.Item>
       <Menu.Item key="logout" onClick={logoutHandler}>
         Logout
@@ -103,9 +105,11 @@ const Header = () => {
                 className="ant-dropdown-link"
                 onClick={(e) => e.preventDefault()}
               >
-                <div className="flex flex-row items-center gap-2">
+                <div className="flex flex-row items-center gap-2 no-underline">
                   {" "}
-                  <span className="dark:text-white">{userInfo.name}</span>
+                  <span className="dark:text-white no-underline">
+                    {userInfo.name}
+                  </span>
                   <span className="dark:text-white">
                     {" "}
                     <FaRegUser />{" "}

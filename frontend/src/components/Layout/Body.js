@@ -18,6 +18,7 @@ import Loader from "../UI/Loader";
 import Message from "../UI/Message";
 import Paginate from "../UI/Paginate";
 import SearchBox from "../UI/SearchBox";
+import Categories from "./Categories";
 function Body() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
@@ -42,10 +43,14 @@ function Body() {
   const menu = (
     <Menu>
       <Menu.Item key="1">
-        <Link to="/cakes">Cakes</Link>
+        <Link to="/cakes" className="no-underline">
+          Cakes
+        </Link>
       </Menu.Item>
       <Menu.Item key="2">
-        <Link to="/noncakes">Non Cakes</Link>
+        <Link to="/noncakes" className="no-underline">
+          Non Cakes
+        </Link>
       </Menu.Item>
     </Menu>
   );
@@ -55,7 +60,9 @@ function Body() {
   };
 
   return (
-    <div className="dark:bg-black dark:text-white mt-[-2rem]">
+    <div className="dark:bg-[#222222] dark:text-white mt-[-2rem] font-montserrat">
+      <img src="../../images/landing.jpg" className="w-full object-contain" />
+      <Categories />
       {/* {!keyword && <ProductCarousel />} */}
       <div className="flex">
         <section className="flex flex-col gap-7 m-10">
@@ -74,7 +81,7 @@ function Body() {
                   Categories
                 </Button>
               </Dropdown>
-              <Link to={"/allproducts"}>
+              <Link to={"/allproducts"} className="no-underline">
                 <Button className="border-2 border-[#4A1D1F] dark:text-[#FBEDCD] bg-transparent text-[#4A1D1F]">
                   See All Items
                 </Button>
@@ -107,7 +114,7 @@ function Body() {
             initial="hidden"
             animate={mainControls}
             transition={{ duration: 1.2, delay: 0.1 }}
-            className="w-[35%]  flex justify-end pr-28 self-center dark:text-[#FBEDCD] text-[24px] font-semibold text-[#4A1D1F]"
+            className="w-full lg:w-[35%]  flex justify-center lg:justify-end px-4 lg:pr-28 self-center dark:text-[#FBEDCD] text-[24px] font-semibold text-[#4A1D1F]"
           >
             Try Our Best Selling
           </motion.div>
@@ -120,11 +127,12 @@ function Body() {
             initial="hidden"
             animate={mainControls}
             transition={{ duration: 1.2, delay: 0.1 }}
-            className="w-[65%] text-[16px] px-28 md:border-l-2  border-[#4A1D1F] dark:border-[#FBEDCD]"
+            className="w-full lg:w-[65%] text-sm lg:text-[16px] px-4 lg:mr-20 lg:px-28 lg:border-l-2  border-[#4A1D1F] dark:border-[#FBEDCD]"
           >
-            Here’s our best creations that everyone loves. Lightness and
-            sweetness of the cake make you want more and more. Start from cake,
-            bread and other creations.{" "}
+            Explore our most popular items that have delighted many customers.
+            Each creation, from cakes to bread and beyond, is crafted to
+            perfection with a balance of flavors and textures that will keep you
+            coming back for more.
           </motion.div>
         </div>
         {loading ? (
@@ -141,7 +149,7 @@ function Body() {
         )}
       </section>
       <section className="flex flex-col items-center">
-        <Link to="allproducts">
+        <Link to="allproducts" className="no-underline">
           <Button
             className="flex mt-5 items-center border-2 border-[#4A1D1F] dark:text-[#FBEDCD] dark:border-[#FBEDCD] bg-transparent text-[#4A1D1F] 
         mb-[141px]"
@@ -158,8 +166,8 @@ function Body() {
           Click here to contact us or visit the nearest store to custom order
           the cake
         </p>
-        <Link to="contact">
-          <Button className="bg-[#4A1D1F] text-[#DAC6C7] w-[114px] mt-[41px] mb-[76px]">
+        <Link to="contact" className="no-underline">
+          <Button className="bg-[#4A1D1F] text-white w-[114px] mt-[41px] mb-[76px]">
             Contact Us
           </Button>
         </Link>
@@ -173,7 +181,7 @@ function Body() {
       ) : error ? (
         <Message variant="danger">{error}</Message>
       ) : (
-        <div className="bg-[#FBEDCD] dark:bg-[#4A1D1F]">
+        <div className="bg-gray-100 dark:bg-[#4A1D1F]">
           <Recommended />
           {/* <Paginate page={page} pages={pages} keyword={keyword} /> */}
         </div>

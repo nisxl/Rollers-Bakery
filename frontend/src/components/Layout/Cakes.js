@@ -82,7 +82,11 @@ function Cakes({ _id, name, price, image, rating, is_cake, min_weight }) {
         {quantity === 0 ? (
           <Context.Provider value={contextValue}>
             {contextHolder}
-            <Link to={`/product/${_id}`} state={{ id: _id }}>
+            <Link
+              to={`/product/${_id}`}
+              state={{ id: _id }}
+              className="no-underline"
+            >
               <Button
                 type="primary"
                 className="bg-[#FBEDCD] font-semibold text-black"

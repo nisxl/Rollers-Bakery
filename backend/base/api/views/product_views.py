@@ -4,9 +4,9 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from base.api.utils.email_utils import send_order_confirmation_email
 from base.items import products
-from base.models import Product, Review
+from base.models import Product, Review, Category
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from base.api.serializers import ProductSerializer
+from base.api.serializers import ProductSerializer, CategorySerializer
 from base.recommendation import recommendation
 
 from django.db import connection
@@ -75,20 +75,15 @@ def getProduct(request, pk):
     return Response(serializer.data)
 
 
-# @api_view(['GET'])
-# def getRecommendations(request, pk):
-#     try:
-#         product = Product.objects.get(_id=pk)
 
-#         # Get recommended products using recommend_products function or any other method
-#         recommended_products = recommend_products(2)  # Pass the product instance
 
-#         serializer = ProductSerializer(product)  # Use many=False for single instance
-#         return Response({'product': serializer.data, 'recommended_products': recommended_products})
 
-#     except Product.DoesNotExist:
-#         return Response(status=status.HTTP_404_NOT_FOUND)
 
+@api_view(['GET'])
+def getCategories(request):
+    categories = Category.objects.all()
+    serializer = CategorySerializer(categories, many=True)
+    return Response(serializer.data)
 
 @api_view(['PUT'])
 @permission_classes([IsAdminUser])
@@ -99,11 +94,14 @@ def updateProduct(request, pk):
     except Product.DoesNotExist:
         return Response({'message': 'Product does not exist'}, status=status.HTTP_404_NOT_FOUND)
 
+    category_id = data.get('category')
+    category = Category.objects.get(id=category_id) if category_id else product.category
+
     product.name = data.get('name', product.name)
     product.price = data.get('price', product.price)
     product.brand = data.get('brand', product.brand)
     product.countInStock = data.get('countInStock', product.countInStock)
-    product.category = data.get('category', product.category)
+    product.category = category
     product.description = data.get('description', product.description)
     product.is_cake = data.get('is_cake', product.is_cake)
     product.one_day_cake = data.get('one_day_cake', product.one_day_cake)
@@ -117,17 +115,20 @@ def updateProduct(request, pk):
 
 
 
+
 @api_view(['POST'])
 @permission_classes([IsAdminUser])
 def createProduct(request):
     data = request.data
-    
+    category_id = data.get('category')
+    category = Category.objects.get(id=category_id) if category_id else None
+
     product = Product.objects.create(
         name=data.get('name'),
         price=data.get('price'),
         brand=data.get('brand'),
         countInStock=data.get('countInStock'),
-        category=data.get('category'),
+        category=category,
         description=data.get('description'),
         is_cake=data.get('is_cake'),
         one_day_cake=data.get('one_day_cake'),
@@ -135,11 +136,20 @@ def createProduct(request):
         max_weight=data.get('max_weight')
     )
 
-    send_order_confirmation_email('dragon1234slayer@gmail.com')
 
     serializer = ProductSerializer(product)
     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+@api_view(['POST'])
+@permission_classes([IsAdminUser])
+def createCategory(request):
+    data = request.data
+    category = Category.objects.create(
+        name=data.get('name'),
+        image=request.FILES.get('image') 
+    )
+    serializer = CategorySerializer(category)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 @api_view(['DELETE'])
 @permission_classes([IsAdminUser])

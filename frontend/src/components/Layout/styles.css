@@ -38,3 +38,32 @@ body {
   height: 100%;
   object-fit: cover;
 }
+
+/* Custom Swiper navigation button styles */
+.swiper-button-next,
+.swiper-button-prev {
+  color: white; /* Change the color to white or any color you prefer */
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 24px; /* Adjust the font size if needed */
+  color: white; /* Change the icon color */
+}
+
+/* Optional: Change navigation button background or borders */
+.swiper-button-next {
+  background-color: rgba(0, 0, 0, 0.5); /* Change background color */
+  border-radius: 50%; /* Make the button circular */
+}
+
+.swiper-button-prev {
+  background-color: rgba(0, 0, 0, 0.5); /* Change background color */
+  border-radius: 50%; /* Make the button circular */
+}
+
+/* Optional: Custom hover effect */
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background-color: rgba(0, 0, 0, 0.7); /* Change hover background color */
+}

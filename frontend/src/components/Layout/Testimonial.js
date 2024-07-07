@@ -32,14 +32,86 @@ function Testimonial() {
         What Our Customers Say
       </div>
       <section className="flex">
-        <div>
-          <img />
-          <p>
-            <span></span>
-            <span></span>
-          </p>
+        <div className="flex gap-2 border-2 rounded-lg h-44 py-4">
+          <img src="../../images/man.png" className="w-10 h-10 rounded-full" />
+          <div className="flex flex-col justify-between">
+            <p className="flex flex-col">
+              <span>Nischal Maharjan</span>
+              <span>Yummy bhaii</span>
+            </p>
+            <img
+              src="../../images/cupcakes.jpg"
+              className="h-14 w-14 rounded-md"
+            />
+          </div>
         </div>
       </section>
+      <Swiper
+        // slidesPerView={5}
+        spaceBetween={5}
+        autoplay={{
+          delay: 2500,
+          // disableOnInteraction: false,
+        }}
+        loop={true}
+        modules={[Autoplay, Navigation]}
+        className="mySwiper"
+        breakpoints={{
+          0: {
+            slidesPerView: 2,
+          },
+
+          768: {
+            slidesPerView: 3,
+          },
+          1024: {
+            slidesPerView: 4,
+          },
+        }}
+      >
+        {productsTopRated.map((product) => {
+          const { reviews } = product;
+          if (reviews.length > 0) {
+            const review = reviews[0];
+            return (
+              <SwiperSlide
+                key={product._id}
+                className="dark:bg-[#222222] dark:text-white"
+              >
+                <div className="flex justify-start gap-2 border-2 rounded-lg h-56 py-4">
+                  <img
+                    src="../../images/man.png"
+                    className="w-10 h-10 rounded-full"
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "999px",
+                    }}
+                  />
+                  <div className="flex flex-col justify-start items-start">
+                    <p className="flex flex-col">
+                      <span>{review.name}</span>
+                      <span className="text-sm h-[4.5em] overflow-hidden w-[250px]">
+                        {review.comment}
+                      </span>
+                    </p>
+                    <img
+                      src="../../images/cupcakes.jpg"
+                      className="h-14 w-14 rounded-md"
+                      style={{
+                        height: "56px",
+                        width: "56px",
+                        borderRadius: "6px",
+                      }}
+                    />
+                  </div>
+                </div>
+              </SwiperSlide>
+            );
+          }
+          return null;
+        })}
+      </Swiper>
       {/* <Swiper
         scrollbar={{
           hide: true,

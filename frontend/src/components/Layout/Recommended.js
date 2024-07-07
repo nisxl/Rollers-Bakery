@@ -85,7 +85,7 @@ function Recommended() {
                 key={product._id}
                 className="flex flex-col h-[410px] items-center"
               >
-                <div className="w-[90px] md:w-[180px] max-w-[180px] flex flex-col text-[15px] font-semibold">
+                <div className="w-[90px] md:w-[220px] max-w-[220px] flex flex-col text-[15px] font-semibold">
                   <Link
                     to={`/product/${product._id}`}
                     state={{ id: product._id }}
@@ -100,107 +100,80 @@ function Recommended() {
                     className="no-underline"
                     state={{ id: product._id }}
                   >
-                    <div className="no-underline dark:text-white mx-2 mt-2 h-[45px] cursor-pointer">
+                    <div className="no-underline dark:text-white text-black mx-2 mt-2 h-[45px] cursor-pointer">
                       {product.name}
                       {product.is_cake && (
                         <div>( {product.min_weight}lb/s )</div>
                       )}
                     </div>
                   </Link>
-                  <div className="flex self-center gap-2 mb-3 mt-[15px]">
-                    <Rating value={product.rating} colors="#f8e825" />
+                  {product.price}
+                  <div className="flex justify-center gap-1 mb-3 mt-[15px] border-2 border-[#4A1D1F] p-1 text-sm rounded-lg">
+                    {/* <Rating value={product.rating} colors="#f8e825" /> */}
 
                     {product.rating > 0 ? (
-                      <FaStar
-                        className="md:hidden"
-                        style={{ color: "brown" }}
-                      />
+                      <FaStar className="" style={{ color: "#4A1D1F" }} />
                     ) : (
-                      <FaRegStar
-                        className="md:hidden"
-                        style={{ color: "brown" }}
-                      />
+                      <FaRegStar className="" style={{ color: "#4A1D1F" }} />
                     )}
 
                     <span>{product.rating}</span>
                   </div>
                 </div>
-                {product.countInStock > 0 ? (
-                  <div className="font-mono">
-                    <Link
-                      to={`/product/${product._id}`}
-                      className="no-underline dark:text-white"
-                      state={{ id: product._id }}
-                    >
-                      <button className="bg-[#FBEDCD] font-semibold text-black">
-                        + Add to Cart
-                      </button>
-                      <Button
-                        type="primary"
-                        className="bg-[#FBEDCD] font-semibold text-black"
-                        onClick={addToCartHandler}
-                      >
-                        + Add to Cart
-                      </Button>
-                    </Link>
-                  </div>
-                ) : (
-                  <p className="text-center text-red-500 font-bold">
-                    Out of Stock
-                  </p>
-                )}
               </section>
             ))
           : productsRecommended.map((product) => (
-              <section className="flex flex-col h-[410px] items-center">
-                <div className="w-[90px] md:w-[180px] max-w-[180px] flex flex-col text-[15px] font-semibold">
+              <section className="flex flex-col h-[320px] items-center bg-white dark:bg-[#222222] shadow-sm">
+                <div
+                  className="w-[90px] dark:text-white md:w-[240px] flex flex-col text-[15px] font-semibold
+            rounded-lg transition-transform ease-in duration-300 transform hover:scale-105 hover:shadow-lg
+            "
+                >
                   <Link
                     to={`/product/${product._id}`}
                     state={{ id: product._id }}
                   >
                     <img
                       src={`${SEED}${product.image}`}
-                      className="w-full h-[105px] md:h-[120px] rounded-lg cursor-pointer"
+                      className="w-full rounded-t-lg"
+                      style={{
+                        height: "210px",
+                        cursor: "pointer",
+                      }}
                     />
                   </Link>
+                  <div className="flex items-center justify-between mx-3 mb-2 mt-[15px] text-xl">
+                    {product.is_cake ? (
+                      <div className="text-md text-[#4A1D1F] dark:text-[#FBEDCD]">
+                        Rs.{product.price}/{product.min_weight}lb
+                      </div>
+                    ) : (
+                      <div className="text-md text-[#4A1D1F] dark:text-[#FBEDCD] ">
+                        Rs.{product.price}
+                      </div>
+                    )}
+                    <div className="flex  gap-1 p-1 rounded-lg dark:border-[#FBEDCD] text-sm">
+                      {/* <Rating value={product.rating} colors="#f8e825" /> */}
+
+                      {product.rating > 0 ? (
+                        <FaStar className="" style={{ color: "#fadb14" }} />
+                      ) : (
+                        <FaRegStar className="" style={{ color: "#fadb14" }} />
+                      )}
+                      <div>{product.rating}</div>
+                    </div>
+                  </div>
+
                   <Link
                     to={`/product/${product._id}`}
                     className="no-underline"
                     state={{ id: product._id }}
                   >
-                    <p className="no-underline dark:text-white mx-2 mt-2 h-[45px] cursor-pointer">
+                    <p className="no-underline dark:text-white mx-3 text-black h-[45px] cursor-pointer flex justify-start">
                       {product.name}
-                      {product.is_cake && (
-                        <div>( {product.min_weight}lb/s )</div>
-                      )}
                     </p>
                   </Link>
-                  <div className="flex self-center gap-2 mb-3 mt-[15px]">
-                    <Rating value={product.rating} colors="#f8e825" />
-                    <span>{product.rating}</span>
-                  </div>
                 </div>
-                {product.countInStock > 0 ? (
-                  <div className="font-mono">
-                    <Link
-                      to={`/product/${product._id}`}
-                      className="no-underline dark:text-white"
-                      state={{ id: product._id }}
-                    >
-                      <Button
-                        type="primary"
-                        className="bg-[#FBEDCD] font-semibold text-black"
-                        onClick={addToCartHandler}
-                      >
-                        + Add to Cart
-                      </Button>
-                    </Link>
-                  </div>
-                ) : (
-                  <p className="text-center text-red-500 font-bold">
-                    Out of Stock
-                  </p>
-                )}
               </section>
             ))}
       </div>
